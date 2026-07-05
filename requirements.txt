@@ -1,5 +1,6 @@
 maafw>=5.0.0,<=5.0.5
 loguru
+pydantic>=2.0
 pandas
 openpyxl
 opencv-python
