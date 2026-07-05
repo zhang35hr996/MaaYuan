@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "metadata": {
+    "title": "示例：三回合基础作业",
+    "game_variant": "ru_yuan",
+    "stage": "qian_shang_hong",
+    "source_type": "text"
+  },
+  "compiler_target": {
+    "min_maayuan_version": "v4.0.0",
+    "pipeline_format_version": 3
+  },
+  "party": [
+    { "slot": 1, "operator": "诸葛亮" },
+    { "slot": 2, "operator": "孟获" },
+    { "slot": 3, "operator": "张松" },
+    { "slot": 4, "operator": "酆公珠" },
+    { "slot": 5, "operator": "史子眇" }
+  ],
+  "symbols": { "A": "attack", "↑": "ultimate", "↓": "defend" },
+  "phases": [],
+  "global_rules": [
+    {
+      "id": "boss_ult_target",
+      "priority": 100,
+      "when": { "type": "enemy_ultimate_ready", "params": { "enemy_slot": 2 } },
+      "then": [ { "action": "select_ally", "ally_slot": 5 } ]
+    }
+  ],
+  "turn_plans": [
+    {
+      "turn": 1,
+      "actions": [
+        { "sequence": 1, "actor_slot": 3, "action": "defend" },
+        { "sequence": 2, "actor_slot": 2, "action": "defend" },
+        { "sequence": 3, "actor_slot": 1, "action": "attack" },
+        { "sequence": 4, "actor_slot": 4, "action": "attack" },
+        { "sequence": 5, "actor_slot": 5, "action": "attack" }
+      ]
+    },
+    {
+      "turn": 2,
+      "actions": [
+        { "sequence": 1, "actor_slot": 1, "action": "ultimate" },
+        { "sequence": 2, "actor_slot": 2, "action": "ultimate_if_ready_else_attack" },
+        { "sequence": 3, "actor_slot": 3, "action": "defend" },
+        { "sequence": 4, "actor_slot": 4, "action": "attack" },
+        { "sequence": 5, "actor_slot": 5, "action": "attack" }
+      ]
+    },
+    {
+      "turn": 3,
+      "target": { "type": "enemy_side", "value": "right" },
+      "actions": [
+        { "sequence": 1, "actor_slot": 1, "action": "attack" },
+        { "sequence": 2, "actor_slot": 2, "action": "attack" },
+        { "sequence": 3, "actor_slot": 3, "action": "attack" },
+        { "sequence": 4, "actor_slot": 4, "action": "attack" },
+        { "sequence": 5, "actor_slot": 5, "action": "attack" }
+      ]
+    }
+  ],
+  "repeat_groups": [
+    {
+      "id": "loop_2_3",
+      "sequence": [2, 3],
+      "until": { "type": "battle_won" },
+      "max_iterations": 10,
+      "on_failure": "pause"
+    }
+  ],
+  "uncertainties": []
+}
